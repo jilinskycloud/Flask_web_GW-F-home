@@ -1,0 +1,4 @@
+{
+    "key": " '2iXcerDFha6n7IO/rPpDCQ==')",
+    "auto_config": "yes"
+}
