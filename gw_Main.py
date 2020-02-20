@@ -139,12 +139,14 @@ def devices():
 	if 'username' in session:
 		print("Dashboard Page Function......")
 		obj = r.scan_iter()
-		blk_ble = r.lrange("Black_listed", 0, -1)
+		blk_ble = r.lrange("white_listed", 0, -1)
+		ln = len(blk_ble)
+		print("----------------------------------------------------------------------",blk_ble)
 		#for key in r.scan_iter():                                                                                                                              
 			#print(key)      
 			#data = r.hgetall(key)                                                                                                                                     
 			#print(type(data))   
-		return render_template('devices.html', data=obj, r_obj=r, blk_ble=blk_ble)
+		return render_template('devices.html', data=obj, r_obj=r, blk_ble=blk_ble, ln=ln)
 	else:
 		return redirect(url_for('login'))
 
@@ -229,7 +231,7 @@ def blk_list():
 		if request.method == 'POST':
 			print("blacklisted Bacons Page!")
 			blk_mac = request.form['blacklisted']
-			r.rpush("Black_listed", blk_mac)
+			r.rpush("white_listed", blk_mac)
 		return redirect(url_for('devices'))
 	else:
 		return redirect(url_for('login'))
@@ -240,10 +242,10 @@ def white_list_get(wht_mac=None):
 		print("blacklisted Bacons Page!")
 		print(wht_mac)
 		obj = r.scan_iter()
-		blk_ble = r.lrange("Black_listed", 0, -1)
+		blk_ble = r.lrange("white_listed", 0, -1)
 		print(blk_ble)
 		if not wht_mac in blk_ble:
-				r.rpush("Black_listed", wht_mac)
+				r.rpush("white_listed", wht_mac)
 		return redirect(url_for('devices'))
 	else:
 		return redirect(url_for('login'))
@@ -251,12 +253,22 @@ def white_list_get(wht_mac=None):
 @app.route('/blk_del/<blk_del_mac>')
 def blk_del(blk_del_mac=None):
 	if 'username' in session:
-		r.lrem("Black_listed", -1, blk_del_mac)
+		r.lrem("white_listed", -1, blk_del_mac)
 		return redirect(url_for('devices'))
 	else:
 		return redirect(url_for('login'))
 
 
+
+
+@app.route('/status', methods=['GET', 'POST'])
+def status():
+	if request.method == 'POST':
+		#return "yes its good im satisfied"
+		tip_top = r.get('hbeat')
+		print(tip_top)
+		return tip_top
+	return 'ok'
 
 
 
@@ -295,6 +307,7 @@ def settings():
 @app.route('/scan_ble')
 def scan_ble():
 	os.system("python3 /www/web/_netw/scan_ble.py")
+	print("fucking scan ble funciton lirking kuti da bacha")
 	return redirect(url_for('devices')) 
 
 

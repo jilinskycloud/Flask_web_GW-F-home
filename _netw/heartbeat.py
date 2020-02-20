@@ -5,10 +5,22 @@ import os
 import signal
 import urllib
 import base64
+import subprocess
+import redis
+
+
+r = redis.StrictRedis(host='localhost', port=6370, db=0, charset="utf-8", decode_responses=True)
 
 HB = "OFF"
 server_socket = "NULL"
 serial_no = "NULL"
+mac = 'NULL'
+#proc = subprocess.Popen(["cat /sys/class/net/eth0/address"], stdout=subprocess.PIPE, shell=True)
+#(mac, err) = proc.communicate()
+
+#print("^^^^^^^^^^^^^^^^^^^^")
+#print(mac)
+
 
 def status_():
 	global HB
@@ -39,6 +51,17 @@ def receive_signal(signum, stack):
 	#print('Received signal:', signum)
 	HB = status_()
 
+def redis_started():
+	proc = subprocess.Popen(["redis-cli -p 6370 ping"], stdout=subprocess.PIPE, shell=True)
+	(out, err) = proc.communicate()
+	out = out.decode("utf-8")
+	#print("luli luli luli luli______________-", out)
+	if out == "PONG\n":
+		out = 1
+	else:
+		out = 0
+	return out
+
 signal.signal(signal.SIGUSR1, receive_signal)
 pidis = str(os.getpid())
 print('My PID:', pidis)
@@ -50,11 +73,15 @@ f.close()
 while(1):
 	time.sleep(2)
 	global HB
-	print("in while loop")
+	global mac
+	#print("in while loop")
+	#print("---------------------------------------------------------------------||||----")
+	#serial_no12 = serial_no+"."+mac.decode("utf-8") 
 	_sr = serial_no.encode()
-	_sr = base64.b64encode(_sr)
-	print(_sr)
-	print(HB)
+	#print(_sr)
+	_sr = base64.b64encode(_sr)   
+	#print(_sr)
+	print("Heart Beat Status :: ",HB)
 	body = {'sr':_sr}
 	if HB == "ON":
 		print("Heartbeat is enabled")
@@ -63,4 +90,18 @@ while(1):
 		url_ = "http://"+server_socket+"/heartBeat/"
 		print(url_) 
 		content = http.request(url_, method="POST", headers={'Content-type': 'application/x-www-form-urlencoded'}, body=urllib.parse.urlencode(body) )[1]
-		print(content)
+		content = content.decode("utf-8") 
+		print("this is the output of the  heartbeat",content)
+		if redis_started() == 1:
+			if content == 'success':
+				r.set("hbeat", 'connected')
+				print("Server is Connected!")
+			else:
+				print("Not Connected!")
+				r.set("hbeat", 'disconnected')
+	elif HB == 'OFF':
+		if redis_started() == 1:
+			print("Server Not Connected!")
+			r.set("hbeat", 'disconnected')
+		else:
+			print("Redis wanna die !!!!!")

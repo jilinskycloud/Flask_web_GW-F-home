@@ -202,3 +202,7 @@ html, body {
     color: rgb(27, 255, 0) !important;
 }
 
+
+._status{
+    background-color: red;
+}

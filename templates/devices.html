@@ -25,13 +25,16 @@
             <th scope="col">MAC:</th>
             <th scope="col">RSSI</th>
             <th scope="col">MAJ/MIN</th>
+            <th scope="col">ADV</th>
             <th scope="col">TX</th>
             <th scope="col">ADD</th>
         </tr>
       </thead>
       <tbody>
+
       {% for key in data %}
-          {% if key != 'Black_listed' %}
+          {% if key != 'white_listed' %}
+          {% if key != 'hbeat' %}
           {% set ble_data = r_obj.hgetall(key) %}
           <tr>
         <th scope="row">{{ loop.index }}</th>
@@ -42,7 +45,7 @@
           <p class="badge badge-light">{{ ble_data['mac'] }}</p>
         </td>
         <td>
-          <p class="badge badge-light">{{ ble_data['rssi'] }}</p>
+          <p class="badge badge-light">{% print(ble_data['rssi']) %}</p>
         </td>
         <td>
           <p class="badge badge-light">0X{{ ble_data['maj'] }}:0X{{ ble_data['mina'] }}</p>
@@ -51,11 +54,16 @@
           <p class="badge badge-light">{{ ble_data['adv'] }}</p>
         </td>
         <td>
+          <p class="badge badge-light">{% print(ble_data['tx']) %}</p>
+        </td>
+        <td>
           <a href="/white_list_get/{{ ble_data['mac'] }}" class="badge badge-success">White List</a>
         </td>
       </tr>
         {% endif %}
+        {% endif %}
       {% endfor %} 
+
     </tbody>
   </table>
   </div>
@@ -117,15 +125,15 @@
 
       </thead>
       <tbody>
-      {% for i in blk_ble %}
-      <tr>
-        <th scope="row">{{ loop.index }}</th>
-        <td>
-          <p class="badge badge-light">{{ i }}</p>
-        </td>
-        <td><a href="/blk_del/{{ i }}" class="badge badge-danger">Delete</a></td>
-      </tr>
-      {% endfor %}
+        {% for i in blk_ble %}
+        <tr>
+          <th scope="row">{{ loop.index }}</th>
+          <td>
+            <p class="badge badge-light">{{ i }}</p>
+          </td>
+          <td><a href="/blk_del/{{ i }}" class="badge badge-danger">Delete</a></td>
+        </tr>
+        {% endfor %}
     </tbody>
   </table>
 </div>

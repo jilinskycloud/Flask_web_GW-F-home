@@ -13,6 +13,85 @@
   <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
 
 
+
+
+  <script type="text/javascript">
+  setInterval(function(){
+      $.ajax({
+            url: '/status',
+            type: "post",
+       
+            success: function (m) {
+              console.log(m);
+              if(m == 'connected'){
+                var $label = $("#my-div label");
+                var text = $label.text();
+                console.log(text)
+                $label.text("Connected"); 
+              }
+              else{
+                var $label = $("#my-div label");
+                var text = $label.text();
+                console.log(text)
+                $label.text("Disconnected"); 
+              }
+
+
+
+
+
+
+
+
+    /*
+              for(var i=0;i<$(".tbl_tr").length;i++){
+                console.log($(".tbl_tr").find(".coll_id").eq(i));
+                 var each_index = m.indexOf($(".tbl_tr").find(".coll_id").text());
+                 //have
+                 console.log(each_index);
+                 $(this).parents('.tbl_tr').find('.success_error').empty();
+                 if(m.indexOf($(".tbl_tr").find(".coll_id").eq(i).text()) != -1){
+                  console.log("Green",$(".tbl_tr").find(".badge-secondary").children())
+                    $(".tbl_tr").find(".badge-secondary").children().eq(i).removeClass();
+                    $(".tbl_tr").find(".badge-secondary").children().eq(i).addClass("fas fa-laugh-wink fa-3x");
+                    // $(this).parents('.tbl_tr').find('.success_error').append("<p class='badge badge-success'><i class='fas fa-laugh-wink fa-3x'></i></p>");
+                 }else{
+                  console.log("Red",$(".tbl_tr").find(".badge-secondary").children())
+                    $(".tbl_tr").find(".badge-secondary").children().eq(i).removeClass();
+                    $(".tbl_tr").find(".badge-secondary").children().eq(i).addClass("fas fa-sad-tear fa-3x");
+                    // $(this).parents('.tbl_tr').find('.success_error').append("<p class='badge badge-secondary'><i class='fas fa-sad-tear fa-3x'></i></p>");
+                 }
+              }
+            },         
+           error: function () { alert("Data Error!"); }, //If the pop-up window pops up, it means that the server path is wrong, or the server is wrong, or the server does not return the specified json data format
+
+*/
+}
+
+      });
+      //$('table #tm').load('/status');
+ },5000);
+
+
+
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </head>
 <body>
   <dir class="container" id="_body">
