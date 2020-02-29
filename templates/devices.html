@@ -13,9 +13,19 @@
 </nav>
 <div class="tab-content" id="nav-tabContent">
   <div class="tab-pane fade show active container" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+<div class="container" style="min-height:100% width:80%" id="alert_message">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-success at-{{category}}" role="alert">
+      <b>{{message}}</b>
+    </div>
+  {% endfor %}
+
+</div>
+
+
 <br>
 <form action="/scan_ble">
-<button type="submit" value="" class="btn btn-primary">Refresh/Scan</button><br><br>
+<button type="submit" value="" class="btn btn-primary">Scan BLE <i class="fas fa-search"></i></button><br><br>
 </form>
   <table class="table table-hover">
     <thead>
@@ -66,12 +76,13 @@
 
     </tbody>
   </table>
+
   </div>
 
 
   <div class="tab-pane fade container" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
     <br>
-    <button type="submit" value="Login" class="btn btn-primary">Refresh/Scan</button>
+    <button type="submit" value="Login" class="btn btn-primary">Scan Wifi <i class="fas fa-search"></i></button>
     <br>
     <br>
   <table class="table table-hover">
@@ -100,7 +111,7 @@
         <td>
           <p class="badge badge-light">-87</p>
         </td>
-        <td><a href="#" class="badge badge-danger">Delete</a></td>
+        <td><a href="#" class="badge badge-danger"><i class="far fa-trash-alt fa-2x"></i></a></td>
       </tr>
     </tbody>
   </table>
@@ -108,8 +119,9 @@
 
   <div class="tab-pane fade container" id="nav-profile1" role="tabpanel" aria-labelledby="nav-profile-tab1">
     <br>
-    <form action="/blk_list" method="POST">
-      <input type="text" name="blacklisted" class="form-control" placeholder="Mac Address"><br>
+    <form method="POST" action="/blk_list">
+      <input type="text" name="blacklisted" class="form-control" placeholder="Mac Address" required><br>
+      <input type="hidden" name="tab" value="nav-profile1">
       <button type="submit" value="Login" class="btn btn-primary">Submit</button>
     </form>
     <br>
@@ -131,11 +143,45 @@
           <td>
             <p class="badge badge-light">{{ i }}</p>
           </td>
-          <td><a href="/blk_del/{{ i }}" class="badge badge-danger">Delete</a></td>
+          <td><a href="/blk_del/{{ i }}" class="badge badge-danger"><i class="far fa-trash-alt fa-2x"></i></a></td>
         </tr>
         {% endfor %}
     </tbody>
   </table>
+
+
+
+<script type="text/javascript">
+
+
+
+
+
+function addMac(){
+
+
+
+    var data1 = $('form').serialize();
+    var mac = document.getElementsByName("blacklisted");
+    $.ajax({
+        url: '/blk_list',
+        type: 'POST',
+        data: data1,
+        success: function (response) {
+            alert(response.status);
+        },
+        error: function () {
+            alert("error");
+        }
+    }); 
+  }
+
+</script>
+
+
+
+
+
 </div>
 
 

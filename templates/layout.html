@@ -9,13 +9,17 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='bootstrap-4.4.1/css/bootstrap.min.css') }}">
   <script type="text/javascript" src="{{ url_for('static', filename='bootstrap-4.4.1/js/bootstrap.min.js') }}"></script>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
+
+<link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/all.min.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='fontawesome/css/font-awesome-animation.min.css') }}">
+  <script type="text/javascript" src="{{ url_for('static', filename='fontawesome/js/all.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='jquery-3.4.1.min.js') }}"></script>
   <script type="text/javascript" src="{{ url_for('static', filename='jquery.js') }}"></script>
 
-
-
-
   <script type="text/javascript">
+
+
   setInterval(function(){
       $.ajax({
             url: '/status',
@@ -27,59 +31,26 @@
                 var $label = $("#my-div label");
                 var text = $label.text();
                 console.log(text)
-                $label.text("Connected"); 
+                $label.html("<span class='badge badge-danger'><i class='fa fa-heart faa-flash animated fa-1x' aria-hidden='true' ></i></span>"); 
               }
               else{
                 var $label = $("#my-div label");
                 var text = $label.text();
                 console.log(text)
-                $label.text("Disconnected"); 
+                $label.html("<span class='badge badge-secondary'><i class='fa fa-heart faa-flash fa-1x' aria-hidden='true' ></i></span>"); 
               }
-
-
-
-
-
-
-
-
-    /*
-              for(var i=0;i<$(".tbl_tr").length;i++){
-                console.log($(".tbl_tr").find(".coll_id").eq(i));
-                 var each_index = m.indexOf($(".tbl_tr").find(".coll_id").text());
-                 //have
-                 console.log(each_index);
-                 $(this).parents('.tbl_tr').find('.success_error').empty();
-                 if(m.indexOf($(".tbl_tr").find(".coll_id").eq(i).text()) != -1){
-                  console.log("Green",$(".tbl_tr").find(".badge-secondary").children())
-                    $(".tbl_tr").find(".badge-secondary").children().eq(i).removeClass();
-                    $(".tbl_tr").find(".badge-secondary").children().eq(i).addClass("fas fa-laugh-wink fa-3x");
-                    // $(this).parents('.tbl_tr').find('.success_error').append("<p class='badge badge-success'><i class='fas fa-laugh-wink fa-3x'></i></p>");
-                 }else{
-                  console.log("Red",$(".tbl_tr").find(".badge-secondary").children())
-                    $(".tbl_tr").find(".badge-secondary").children().eq(i).removeClass();
-                    $(".tbl_tr").find(".badge-secondary").children().eq(i).addClass("fas fa-sad-tear fa-3x");
-                    // $(this).parents('.tbl_tr').find('.success_error').append("<p class='badge badge-secondary'><i class='fas fa-sad-tear fa-3x'></i></p>");
-                 }
-              }
-            },         
-           error: function () { alert("Data Error!"); }, //If the pop-up window pops up, it means that the server path is wrong, or the server is wrong, or the server does not return the specified json data format
-
-*/
 }
 
       });
       //$('table #tm').load('/status');
- },5000);
+ },1000);
+
+
 
 
 
 
 </script>
-
-
-
-
 
 
 

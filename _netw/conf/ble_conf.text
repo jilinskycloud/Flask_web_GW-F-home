@@ -1,11 +1,11 @@
 {
-    "heart_beat": "on",
-    "sniffer_type": "IBeacon",
-    "serial_no": "000009",
-    "data_interval": "1",
-    "server_socket": "192.168.0.74:5000",
     "enable_post_data": "on",
-    "rssi_range": "0|300",
+    "sniffer_type": "IBeacon",
+    "server_socket": "192.168.0.74:5000",
+    "protoc": "MQTT",
+    "rssi_range": "0|500",
+    "serial_no": "0000011",
+    "heart_beat": "on",
     "cache_size": "15",
-    "protoc": "HTTP"
+    "data_interval": "1"
 }

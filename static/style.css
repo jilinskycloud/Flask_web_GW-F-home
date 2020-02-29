@@ -73,7 +73,7 @@ html, body {
     display: block;
 }
 .footer {
-    background: #616161;
+    background: #000000d6;
     height: auto;
     /* padding-bottom: 30px; */
     position: relative;
@@ -84,16 +84,27 @@ html, body {
 }
 .footer p {
     margin: 0;
+    font-weight: 700;
+    color: #ffc107;
 }
-.footer img {
-    max-width: 100%;
+.footer .logo1 {
+margin-top: auto;
+margin-bottom: auto;
+    text-align: center;
 }
+
+.footer .logo1 img {
+        width: 260px;
+    height: 110px;
+}
+
+
 .footer h3 {
     color: white;
     font-size: 18px;
     font-weight: 600;
     line-height: 27px;
-    padding: 40px 0 0px;
+    padding: 20px 0 0px;
     text-transform: uppercase;
   /* margin-bottom: 15px; */
 }
@@ -114,35 +125,37 @@ html, body {
 
 .footer ul {
     font-size: 13px;
-    list-style-type: none;
-    margin-left: 0;
+list-style-type: none;
+    margin-left: 5px;
     padding-left: 0;
-    margin-top: 0px;
+    margin-top: 6px;
     color: #7F8C8D;
-  padding: 0 0 8px 0;
+    padding: 0 0 0px 0;
 }
 
 .email{
   border-bottom: 3px solid #fff;
 }
-.footer ul li a {
-    padding: 0 0 12px 0;
-    display: block;
+
+#footer_navi{
+    padding: 20px;
+}
+.footer ul li{
+    color: white;
 }
 .footer a {
-    color: white;
+    color: #007bff;
   font-weight: lighter;
 }
 
-.footer p {
-    color: rgb(27, 255, 0);
-  font-weight: lighter;
-  font-size: 
-}
 
-.footer a:hover {
+
+.footer ul li a:hover {
     text-decoration:none;
   font-weight: bold;
+  /* color: #1bff00 !important; */
+  color: white !important;
+  transition-delay: 2ms;
 }
 .supportLi h4 {
     font-size: 20px;
@@ -160,13 +173,13 @@ html, body {
 
 }
 .footer a {
-    color: #78828D
+    color: #78828D;
 }
 
 .footer-bottom {
-  margin-top: 2em;
+
     border-top: 1px solid #DDDDDD;
-    padding-top: 20px;
+
     padding-bottom: 10px;
     background-color: black;
 }
@@ -199,10 +212,54 @@ html, body {
 
 
 .navbar-brand {
-    color: rgb(27, 255, 0) !important;
+    /* color: rgb(27, 255, 0) !important; */
+    color: #ffc107 !important;
+    font-weight: 700;
 }
 
 
 ._status{
     background-color: red;
+}
+
+
+
+._inner{
+    background-color: #00968845;
+}
+._dashb{
+    background-color: #f8f9fa;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding:15px;
+}
+
+
+#_sysInfo{
+    background-color: #000000; /*#007bff !important; */
+    border-color: #000000; /*#007bff !important; */
+    /* color: #1bff00 !important; */
+    color: #ffc107 !important;
+    font-weight: 700;
+}
+
+
+.nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active{
+    background-color: #000000 !important;
+    color: white !important;
+}
+
+
+
+
+#alert_message{
+position: absolute;
+  width: 500px;
+  height: 500px;
+  top: 50%;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  margin: auto;
 }

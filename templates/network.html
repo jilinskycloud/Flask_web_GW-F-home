@@ -6,11 +6,20 @@
 <nav>
   <div class="container">
   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">wifi Sniffer</a>
+    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Wifi Sniffer</a>
     <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Bluetooth Sniffer</a>
   </div>
 </nav>
+<div class="tab-content" id="nav-tabContent">
+  <div class="tab-pane fade show active container" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+<div class="container" style="min-height:100% width:80%" id="alert_message">
+  {% for category, message in get_flashed_messages(with_categories=True) %}
+    <div class="alert alert-success at-{{category}}" role="alert">
+      <b>{{message}}</b>
+    </div>
+  {% endfor %}
 
+</div>
 <!-- HIDDEN TABS -->
 <div class="tab-content" id="nav-tabContent">
   <!-- TAB ONE -->
@@ -29,13 +38,13 @@
         </div>
         <div class="form-row">
           <div class="form-group form-check">
-            <input type="hidden" name="heart_beat" class="form-check-input" id="ble_hb_val" value="{{ d1['heart_beat'] }}">
+            <input type="hidden" name="heart_beat" class="form-check-input" id="ble_hb_val" value="{{ d1['heart_beat'] }}" required>
           </div>
         </div>
         <h5><span class="badge badge-light">Serial No.</span></h5>
         <div class="form-row">
           <div class="col-xs-6">
-            <input type="text" name="serial_no" class="form-control" placeholder="heartbeat server ip" value="{{ d1['serial_no'] }}">
+            <input type="text" name="serial_no" class="form-control" placeholder="heartbeat server ip" value="{{ d1['serial_no'] }}" required>
           </div>
         </div><br>
         <div class="form-row">
@@ -50,13 +59,13 @@
         </div>
         <div class="form-row">
           <div class="form-group form-check">
-            <input type="hidden" name="enable_post_data" class="form-check-input" id="ble_post_val" value="{{ d1['enable_post_data'] }}">
+            <input type="hidden" name="enable_post_data" class="form-check-input" id="ble_post_val" value="{{ d1['enable_post_data'] }}" required>
           </div>
         </div>
         <h5><span class="badge badge-light">Server Socket:</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="server_socket" class="form-control" placeholder="server address" value="{{ d1['server_socket'] }}">
+            <input type="text" name="server_socket" class="form-control" placeholder="server address" value="{{ d1['server_socket'] }}" required>
           </div>
         </div><br>
         <div class="form-row">
@@ -67,27 +76,26 @@
         <h5><span class="badge badge-light">Cache Size:</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="cache_size" class="form-control" placeholder="Cache Size" value="{{ d1['cache_size'] }}">
+            <input type="text" name="cache_size" class="form-control" placeholder="Cache Size" value="{{ d1['cache_size'] }}" required>
           </div>
         </div><br>
         <h5><span class="badge badge-light">RSSI Range</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="rssi_range" class="form-control" placeholder="RSSI Range" value="{{ d1['rssi_range'] }}">
+            <input type="text" name="rssi_range" class="form-control" placeholder="RSSI Range" value="{{ d1['rssi_range'] }}" required>
           </div>
         </div><br>
         <h5><span class="badge badge-light">Data Interval:</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="data_interval" class="form-control" placeholder="Data Transmission Interval" value="{{ d1['data_interval'] }}">
+            <input type="text" name="data_interval" class="form-control" placeholder="Data Transmission Interval" value="{{ d1['data_interval'] }}" required>
           </div>
         </div><br>
         <div class="form-row">
           <div class="form-group col-md-5">
             <h5><span class="badge badge-light">Protocol:</span></h5>
-            <select name="protoc" id="inputState" class="form-control">
-              <option selected>{{ d1['protoc'] }}</option>\
-              <option>-----</option>
+            <select name="protoc" id="inputState" class="form-control" required>
+              <option selected>{{ d1['protoc'] }}</option>
               <option>MQTT</option>
                <option>HTTP</option>
             </select>
@@ -113,13 +121,13 @@
         </div>
         <div class="form-row">
           <div class="form-group form-check">
-            <input type="hidden" name="w_heart_beat" class="form-check-input" id="wifi_hb_val" value="{{ d2['w_heart_beat'] }}">
+            <input type="hidden" name="w_heart_beat" class="form-check-input" id="wifi_hb_val" value="{{ d2['w_heart_beat'] }}" required>
           </div>
         </div>
         <h5><span class="badge badge-light">Serial No.</span></h5>
         <div class="form-row">
           <div class="col-xs-6">
-            <input type="text" name="w_serial_no" class="form-control" placeholder="heartbeat server ip" value="{{ d2['w_serial_no'] }}">
+            <input type="text" name="w_serial_no" class="form-control" placeholder="heartbeat server ip" value="{{ d2['w_serial_no'] }}" required>
           </div>
         </div><br>
         <div class="form-row">
@@ -134,13 +142,13 @@
         </div>
         <div class="form-row">
           <div class="form-group form-check">
-            <input type="hidden" name="w_enable_post_data" class="form-check-input" id="wifi_post_val" value="{{ d2['w_enable_post_data'] }}">
+            <input type="hidden" name="w_enable_post_data" class="form-check-input" id="wifi_post_val" value="{{ d2['w_enable_post_data'] }}" required>
           </div>
         </div>
         <h5><span class="badge badge-light">Server Socket:</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="w_server_socket" class="form-control" placeholder="server address" value="{{ d2['w_server_socket'] }}">
+            <input type="text" name="w_server_socket" class="form-control" placeholder="server address" value="{{ d2['w_server_socket'] }}" required>
           </div>
         </div><br>
         <div class="form-row">
@@ -151,27 +159,26 @@
         <h5><span class="badge badge-light">Cache Size:</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="w_cache_size" class="form-control" placeholder="Cache Size" value="{{ d2['w_cache_size'] }}">
+            <input type="text" name="w_cache_size" class="form-control" placeholder="Cache Size" value="{{ d2['w_cache_size'] }}" required="">
           </div>
         </div><br>
         <h5><span class="badge badge-light">RSSI Range</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="w_rssi_range" class="form-control" placeholder="RSSI Range" value="{{ d2['w_rssi_range'] }}">
+            <input type="text" name="w_rssi_range" class="form-control" placeholder="RSSI Range" value="{{ d2['w_rssi_range'] }}" required>
           </div>
         </div><br>
         <h5><span class="badge badge-light">Data Interval:</span></h5>
         <div class="form-row">
           <div class="col-xs-5">
-            <input type="text" name="w_data_interval" class="form-control" placeholder="Data Transmission Interval" value="{{ d2['w_data_interval'] }}">
+            <input type="text" name="w_data_interval" class="form-control" placeholder="Data Transmission Interval" value="{{ d2['w_data_interval'] }}" required>
           </div>
         </div><br>
         <div class="form-row">
           <div class="form-group col-md-5">
             <h5><span class="badge badge-light">Protocol:</span></h5>
-            <select name="w_protoc" id="inputState" class="form-control">
-              <option selected>{{ d2['w_protoc'] }}</option>\
-              <option>-----</option>
+            <select name="w_protoc" id="inputState" class="form-control" required>
+              <option selected>{{ d2['w_protoc'] }}</option>
               <option>MQTT</option>
                <option>HTTP</option>
             </select>

@@ -5,10 +5,10 @@ from flask import escape
 from flask import url_for
 from flask import request
 from flask import render_template
+from flask import flash
 #from flask import abort
 from flask import redirect
 from flask import session
-#from flask import flash
 from flask import jsonify
 #from flask_mysqldb import MySQL
 import psutil
@@ -72,17 +72,25 @@ def getcmd():
 def reboot():
 	print("System Reboot Function......")
 	os.system("reboot")
-	return "Device Going to Reboot! To Access web page Pleage Refresh Page After 2 minutes..."
+	ipis = cm("ifconfig eth0| egrep -o '([[:digit:]]{1,3}\.){3}[[:digit:]]{1,3}'")
+	ipis = ipis.split("\n")
+	print("--------------------------------",ipis[0])
+	#return flask("Device Going to Reboot! To Access web page Pleage Refresh Page After 2 minutes...")
+	return "<div style='background-color:red; background-color: #e4e0e0; margin: 0px; width: 700px; text-align: center; padding: 15px; color: black; margin-left: auto; margin-right: auto;'>Device Going to Reboot! To Access Web Please <a href='http://"+ipis[0]+":5000/'>Click Here</a> After 2 minutes...</div>"
+	#return "Device Going to Reboot! To Access web page Pleage Refresh Page After 2 minutes..."
 
 # ===================MYSQL FUNCTIONS==========================
 
 @app.route('/delProfile/<ids>')
 def delProfile(ids=None):
 	conn = sqlite3.connect('/www/web/gw_FlaskDb.db')
-	f = conn.execute("DELETE FROM login where id=?", (ids))
+	print("this is the det id-----------------------------------------------------------------------", ids)
+	f = conn.execute("DELETE FROM login where id=?", (ids,))
+	print("this is the det id-----------------------------------------------------------------------", ids)
 	conn.commit()
 	conn.close()
 	print("Delete Login User Function......")
+	flash("Deleted successfully")
 	return redirect(url_for('settings'))
 
 #=============================================================
@@ -120,7 +128,9 @@ def dashboard():
 		data['FirmV'] = 'v3.0.11_sniffer_TainCloud_r864'
 		data['lTime'] = cm('date')
 		data['runTime'] = cm('uptime')
-		data['network'] = cm('ifconfig')
+		#data['network'] = cm("ifconfig -a | sed 's/[ \t].*//;/^\(lo\|\)$/d'")
+		#data['network'] = cm("ls /sys/class/net")
+		data['network'] = cm("ifconfig eth0| egrep -o '([[:digit:]]{1,3}\.){3}[[:digit:]]{1,3}'")
 		data['mount'] = psutil.disk_partitions(all=False)
 		data['disk_io_count'] = psutil.disk_io_counters(perdisk=False, nowrap=True)
 		data['net_io_count'] = psutil.net_io_counters(pernic=False, nowrap=True)
@@ -186,12 +196,14 @@ def network():
 				print(result)
 				with open("/www/web/_netw/conf/ble_conf.text", "w") as f:
 					json.dump(result, f, indent=4)
+				flash("Network Configuration Updated")
 			elif request.form['sniffer_type'] == 'Wifi':
 				print("Its Wifi---------------")
 				result = request.form.to_dict()
 				print(result)
 				with open("/www/web/_netw/conf/wifi_conf.text", "w") as f:
 					json.dump(result, f, indent=4)
+				flash(" Network Configuration Updated")
 			else:
 				print("form data error")
 			print("restart hb!")
@@ -220,18 +232,22 @@ def network():
 		d1 = json.load(open('/www/web/_netw/conf/ble_conf.text','r'))
 		d2 = json.load(open('/www/web/_netw/conf/wifi_conf.text','r'))
 
+
 		return render_template('network.html', d1=d1, d2=d2)
 	else:
 		return redirect(url_for('login'))
 
 		
-@app.route('/blk_list', methods=['GET', 'POST'])
+@app.route('/blk_list', methods=['POST'])
 def blk_list():
 	if 'username' in session:
 		if request.method == 'POST':
-			print("blacklisted Bacons Page!")
 			blk_mac = request.form['blacklisted']
+			tab = request.form['tab']
+
+			print("---------------------------------------------",tab)
 			r.rpush("white_listed", blk_mac)
+			flash("Added to White List", 'add mac')
 		return redirect(url_for('devices'))
 	else:
 		return redirect(url_for('login'))
@@ -245,7 +261,10 @@ def white_list_get(wht_mac=None):
 		blk_ble = r.lrange("white_listed", 0, -1)
 		print(blk_ble)
 		if not wht_mac in blk_ble:
-				r.rpush("white_listed", wht_mac)
+			r.rpush("white_listed", wht_mac)
+			flash('Mac Added to White List.', 'scan_ble')
+		else:
+			flash('Mac Already Exist is White List.', 'scan_ble')
 		return redirect(url_for('devices'))
 	else:
 		return redirect(url_for('login'))
@@ -254,6 +273,7 @@ def white_list_get(wht_mac=None):
 def blk_del(blk_del_mac=None):
 	if 'username' in session:
 		r.lrem("white_listed", -1, blk_del_mac)
+		flash("Deleted successfully", 'mac_del')
 		return redirect(url_for('devices'))
 	else:
 		return redirect(url_for('login'))
@@ -291,6 +311,7 @@ def settings():
 			conn.commit()
 			conn.close()
 			msg = "Record successfully added"
+			flash("Login Details Added successfully")
 		
 
 		conn = sqlite3.connect('/www/web/gw_FlaskDb.db')
@@ -335,6 +356,7 @@ def login():
 			error = 'Invalid Credentials. Please try again.'
 		else:
 			session['username'] = request.form['username']
+			flash('You were successfully logged in')
 			return redirect(url_for('index'))
 	return render_template('login.html', error=error)
 

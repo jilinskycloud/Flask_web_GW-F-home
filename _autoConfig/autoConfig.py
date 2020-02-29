@@ -160,8 +160,9 @@ def read_usb():
 
 
 def insert_sqlite(data):
+  os.system("rm /www/web/gw_FlaskDb.db")
   conn = sqlite3.connect('/www/web/gw_FlaskDb.db')
-  #conn.execute('CREATE TABLE login (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)')
+  conn.execute('CREATE TABLE login (id INTEGER PRIMARY KEY AUTOINCREMENT, username TEXT, password TEXT)')
   print("Table created successfully");
   # Insert Data to Login table
   print("UNAME::  ",data['gw_uname'])
